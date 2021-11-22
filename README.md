@@ -1,3 +1,24 @@
+### Install
+    mkdir ~/tello-ros2
+    cd ~/tello-ros2
+    git clone https://github.com/TIERS/tello-ros2.git
+    colcon build
+
+
+###Launch 
+    cd ~/tello-ros2
+    source install setup.bash
+    cd src
+    ros2 launch launch.py
+
+in a different terminal
+    ros2 topic pub /land std_msgs/Empty --once
+    ros2 topic pub /takeoff std_msgs/Empty --once
+    ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=control
+
+
+
+
 # DJI Tello ROS2
 - [DJI Tello](https://www.ryzerobotics.com/tello) driver for ROS 2 based on [DJITelloPy](https://github.com/damiafuentes/DJITelloPy) that uses the [official SDK](https://github.com/dji-sdk/Tello-Python) for the drone.
 - Can be used to control multiple drones both using the swarm functionality (only for [Tello EDU](https://www.ryzerobotics.com/tello-edu)) or using multiple WLAN with regular [Tello](https://www.ryzerobotics.com/tello) drones.
@@ -104,20 +125,6 @@ Node(
 
 
 
-### Visual SLAM
-
-- The drone is equipped with a IMU and a camera that can be used for visual SLAM in order to obtain the location of the drone and a map of the environment.
-- [ORB SLAM 2](https://github.com/raulmur/ORB_SLAM2) is a monocular visual based algorithm for SLAM that can be easily integrated with the Tello drone using this package.
-- The wrapper provided alongside with this repository is based on the [alsora/ros2-ORB-SLAM2](https://github.com/alsora/ros2-ORB_SLAM2/tree/f890df18983ead8cd2ae36676036d535ee52951b) project using the [alsora/ORB_SLAM2](alsora/ORB_SLAM2) modified version of ORB Slam that does not depend on pangolin.
-- To run the monocular SLAM node after installing all dependencies and building the package run.
-
-```bash
-ros2 run ros2_orbslam mono <VOCABULARY FILE> <CONFIG_FILE>
-```
-
-- The vocabulary file can be obtained from the ORB_SLAM2 repository ( `ORB_SLAM2/Vocabulary/ORBvoc.txt`).
-- Sample configuration files can be found inside the package at `orbslam2/src/monocular/config.yaml` for monocular SLAM.
-
 
 
 ### Setup ROS 2 Foxy
@@ -185,48 +192,4 @@ ros2 bag play -s rosbag_v2 <path_to_bagfile>
 - When installing on ubuntu based distros it might be required to change the distro codename so that the `lsb_release -cs` command returns the correct ubuntu base distribution.
 - To change the output of the `lsb_release` command edit the `/etc/os-release` file. For ubuntu 20.04 the codename should be `focal`.
 - Edit the file to contain the value `UBUNTU_CODENAME=focal`.
-
-
-
-### Windows Subsystem for Linux (WSL)
-
-- Install WSL2 from the windows store or using the commands bellow, install Ubuntu 20.04 as the SO over the WSL overlay.
-
-```powershell
-# Install WSL 2
-Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
-
-# Enable WSL 2
-dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-
-# Check WSL version
-wsl.exe --set-default-version 2
-wsl -l -v
-```
-
-- Install a [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/) to be used as a X11 display server required to run GUI applications.
-  - "Native opengl" unchecked
-  - "Disable access control" checked
-- Create a shortcut for VcXSrv with the following parameters
-
-```powershell
-"C:\Program Files\VcXsrv\vcxsrv.exe" :0 -ac -terminate -lesspointer -multiwindow -clipboard -wgl -dpi auto
-```
-
-- To enable the access to the installed server add the display address to the `.bashrc` file
-
-```bash
-export DISPLAY="`grep nameserver /etc/resolv.conf | sed 's/nameserver //'`:0"
-export LIBGL_ALWAYS_INDIRECT=0
-```
-
-- If you are using Visual Studio Code as and IDE you can configure for [remote WSL development](https://code.visualstudio.com/docs/cpp/config-wsl), allowing to debug code and interact with the WSL terminal.
-- If you require CUDA acceleration you can also install [NVidia CUDA drivers for WSL2](https://developer.nvidia.com/blog/announcing-cuda-on-windows-subsystem-for-linux-2/)
-
-- If you get `Clock skew detected. Your build may be incomplete.` while compiling the code run the following commands or install the [wsl-clock](https://github.com/stuartleeks/wsl-clock) tool to automatically fix the clock drift problems.
-
-```bash
-sudo apt install ntpdate
-sudo ntpdate time.windows.com
-```
 
