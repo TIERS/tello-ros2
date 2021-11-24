@@ -17,6 +17,9 @@ in a different terminal
     ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=control
 
 
+###Odom
+despite original documentation, what is labeled as speed in /odom is actually the position
+
 
 
 # DJI Tello ROS2
