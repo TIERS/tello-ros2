@@ -11,9 +11,11 @@
     cd src
     ros2 launch launch.py
 
-in a different terminal
+in different terminal tabs
     ros2 topic pub /land std_msgs/Empty --once
+
     ros2 topic pub /takeoff std_msgs/Empty --once
+
     ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=control
 
 
