@@ -11,7 +11,7 @@
     cd src
     ros2 launch launch.py
 
-in different terminal tabs
+##### in different terminal tabs
     ros2 topic pub /land std_msgs/Empty --once
 
     ros2 topic pub /takeoff std_msgs/Empty --once
