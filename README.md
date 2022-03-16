@@ -7,7 +7,7 @@
 
 ### Launch 
     cd ~/tello-ros2
-    source install setup.bash
+    source install/setup.bash
     cd src
     ros2 launch launch.py
 
