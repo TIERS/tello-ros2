@@ -17,6 +17,8 @@
     ros2 topic pub /takeoff std_msgs/Empty --once
 
     ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=control
+  ***Note:  Increase the tello speed first to control the drone by keyboard. 
+            The default speed of tello in teleop-twist-keyboard is too slow to see the changes. 
 
 
 ### Odom
